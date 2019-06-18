@@ -1,5 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
+
+import { CalendarComponent } from 'ionic2-calendar/calendar';
+import { MonthViewComponent } from 'ionic2-calendar/monthview';
+import { WeekViewComponent } from 'ionic2-calendar/weekview';
+import { DayViewComponent } from 'ionic2-calendar/dayview';
 import { NgCalendarModule  } from 'ionic2-calendar';
+
+import { NavController, AlertController, ModalController } from '@ionic/angular';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
+//import {DatabaseService } from '../database.service';
+import { LoadingController } from '@ionic/angular';
+import {Http, Headers } from '@angular/http';
+import { Platform } from '@ionic/angular';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 
 @Component({
@@ -8,8 +24,12 @@ import { NgCalendarModule  } from 'ionic2-calendar';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
+  //public navCtrl: NavController  
+  constructor(private modal:ModalController, private uniqueDeviceID: UniqueDeviceID, public loadingCtrl: LoadingController, public plt: Platform, private localNotifications: LocalNotifications,  public nativeAudio: NativeAudio, private backgroundMode: BackgroundMode, private http:Http,private alertCtrl: AlertController) {
+  }
+  
+  //constructor(private modal:ModalController,, private uniqueDeviceID: UniqueDeviceID, public loadingCtrl: LoadingController, public plt: Platform, private localNotifications: LocalNotifications, public nativeAudio: NativeAudio , private backgroundMode: BackgroundMode,public navCtrl: NavController, private http:Http,private alertCtrl: AlertController)
+  //constructor() { }
 
   ngOnInit() {
   }
@@ -18,8 +38,10 @@ export class HomeComponent implements OnInit {
   viewTitle;
   isToday: boolean;
   calendar = {
-      mode: 'month',
-      currentDate: new Date()
+    locale: 'es-MX',
+    autoSelect: 'true',
+    mode: 'month',
+    currentDate: new Date()
   }; // these are the variable used by the calendar.
   loadEvents() {
       this.eventSource = this.createRandomEvents();
@@ -33,8 +55,8 @@ export class HomeComponent implements OnInit {
   changeMode(mode) {
       this.calendar.mode = mode;
   }
-  today() {
-      this.calendar.currentDate = new Date();
+  today() {    
+      this.calendar.currentDate = new Date();      
   }
   onTimeSelected(ev) {
       console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
@@ -90,6 +112,6 @@ export class HomeComponent implements OnInit {
       current.setHours(0, 0, 0);
       return date < current;
   };
-    
+
 
 }

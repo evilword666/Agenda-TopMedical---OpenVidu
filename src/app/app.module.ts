@@ -17,8 +17,15 @@ import { ModificarCitaComponent } from './modificar-cita/modificar-cita.componen
 import { OpenviduVideoAsistenciaComponent } from './openvidu-video-asistencia/openvidu-video-asistencia.component';
 import { HttpModule } from '@angular/http';
 import { NavController, NavParams } from '@ionic/angular';
+import { DatabaseService } from './database.service';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+
 
 
 @NgModule({
@@ -54,6 +61,12 @@ import { NgCalendarModule  } from 'ionic2-calendar';
         StatusBar,
         SplashScreen,
         NavController,
+        UniqueDeviceID,
+        BackgroundMode,
+        LocalNotifications,
+        NativeAudio,
+        DatabaseService,
+        SQLite,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         AndroidPermissions,        
     ],

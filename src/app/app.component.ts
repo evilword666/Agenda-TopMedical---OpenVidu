@@ -10,6 +10,10 @@ import { catchError } from 'rxjs/operators';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { OpenviduVideoAsistenciaComponent } from './openvidu-video-asistencia/openvidu-video-asistencia.component';
+
+
+
+
 declare var cordova;
 
 @Component({
@@ -23,6 +27,6 @@ export class AppComponent implements OnDestroy {
         throw new Error("Method not implemented.");
     }
 
-    rootPage:any = LoginComponent;
+    rootPage:any = HomeComponent;
 
 }
