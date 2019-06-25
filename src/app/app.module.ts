@@ -8,12 +8,15 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
+
 import { OpenViduVideoComponent } from './openvidu-video-asistencia/ov-video.component';
 import { UserVideoComponent } from './openvidu-video-asistencia/user-video.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { ModalComponent } from './modal/modal.component';
-import { ModificarCitaComponent } from './modificar-cita/modificar-cita.component';
+
+//import { HomeComponent } from './home/home.component';
+//import { LoginComponent } from './login/login.component';
+//import { ModalComponent } from './modal/modal.component';
+//import { ModificarCitaComponent } from './modificar-cita/modificar-cita.component';
+
 import { OpenviduVideoAsistenciaComponent } from './openvidu-video-asistencia/openvidu-video-asistencia.component';
 import { HttpModule } from '@angular/http';
 import { NavController, NavParams } from '@ionic/angular';
@@ -25,6 +28,11 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+import { Platform } from '@ionic/angular';
+import { AppRoutingModule } from './app-routing.module';
+
+import { Demo2Page } from './demo2/demo2.page';
+import { DemoComponent } from './demo/demo.component';
 
 
 
@@ -33,39 +41,48 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
         AppComponent, 
         UserVideoComponent, 
         OpenViduVideoComponent, 
-        HomeComponent, 
-        LoginComponent, 
-        ModalComponent, 
-        ModificarCitaComponent, 
-        OpenviduVideoAsistenciaComponent
+        //HomeComponent, 
+        //LoginComponent, 
+        //ModalComponent, 
+        //ModificarCitaComponent, 
+        OpenviduVideoAsistenciaComponent, 
+        
+        Demo2Page, 
+        DemoComponent
     ],
     entryComponents: [
         AppComponent, 
         UserVideoComponent, 
         OpenViduVideoComponent, 
-        HomeComponent, 
-        LoginComponent, 
-        ModalComponent, 
-        ModificarCitaComponent, 
-        OpenviduVideoAsistenciaComponent
+        //HomeComponent, 
+        //LoginComponent, 
+        //ModalComponent, 
+        //ModificarCitaComponent, 
+        OpenviduVideoAsistenciaComponent,
+        DemoComponent,
+        Demo2Page
     ],
     imports: [
         NgCalendarModule,
         BrowserModule, 
         FormsModule, 
+        
         IonicModule.forRoot(), 
         HttpClientModule,
         HttpModule,
+        AppRoutingModule
     ],
     providers: [
         StatusBar,
-        SplashScreen,
-        NavController,
+        SplashScreen,        
         UniqueDeviceID,
         BackgroundMode,
         LocalNotifications,
         NativeAudio,
         DatabaseService,
+        NavController,
+        Platform,
+
         SQLite,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         AndroidPermissions,        

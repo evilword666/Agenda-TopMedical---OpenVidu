@@ -3,17 +3,17 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import {Http, Headers } from '@angular/http';
-import { HomeComponent } from '../home/home.component'
+import { HomePage } from '../home/home.page'
 import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
 })
-
-export class LoginComponent {
-
+export class LoginPage implements OnInit {
+  
   data:any = {};
 
   user:String;
@@ -22,7 +22,7 @@ export class LoginComponent {
   passwordType:string='password';
   passwordShowed:boolean=false;
   
-  constructor(public loadingController: LoadingController, public navParams: NavParams, public alertController: AlertController, private http: Http) {       
+  constructor(private navCtrl:NavController, private router: Router, public loadingController: LoadingController, public alertController: AlertController, private http: Http) {       
     this.data.username = '';
     this.data.response = '';    
     this.http = http;
@@ -164,6 +164,10 @@ ngOnInit(): void {
       }else{
         this.camposVacios();
       }
+}
+
+routingIonic4(){
+  this.navCtrl.navigateForward('/videoasistencia')
 }
 
 }

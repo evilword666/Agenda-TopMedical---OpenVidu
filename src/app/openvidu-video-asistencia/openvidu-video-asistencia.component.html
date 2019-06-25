@@ -12,7 +12,10 @@
   </ion-header>
 
   <ion-content padding *ngIf="!session">
-    
+
+    <!--<app-demo></app-demo>-->
+    <ion-button (click)="regresar()">Regresar</ion-button>
+
     <div id="img-div"><img src="../assets/images/openvidu_grey_bg_transp_cropped.png" /></div>
     <h1 align="center" id="title">Join a video session</h1>
     <ion-item>
