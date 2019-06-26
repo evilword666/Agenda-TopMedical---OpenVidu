@@ -166,8 +166,8 @@ ngOnInit(): void {
       }
 }
 
-routingIonic4(){
-  this.navCtrl.navigateForward('/videoasistencia')
-}
+  routingIonic4(){
+    this.navCtrl.navigateForward('/videoasistencia')
+  }
 
 }
