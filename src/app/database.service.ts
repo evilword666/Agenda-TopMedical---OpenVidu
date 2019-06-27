@@ -1,6 +1,8 @@
 
 import { Injectable, ɵConsole } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+//import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
 
 @Injectable({
   providedIn: 'root'

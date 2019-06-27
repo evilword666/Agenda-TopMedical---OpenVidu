@@ -14,7 +14,9 @@ import { UserVideoComponent } from './openvidu-video-asistencia/user-video.compo
 import { OpenviduVideoAsistenciaComponent } from './openvidu-video-asistencia/openvidu-video-asistencia.component';
 import { HttpModule } from '@angular/http';
 import { NavController, NavParams } from '@ionic/angular';
+
 //import { DatabaseService } from './database.service';
+
 import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
@@ -22,12 +24,21 @@ import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
+
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+//import { SQLite } from '@ionic-native/sqlite';
+//import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
+
+
 import { Platform } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 
 import { Demo2Page } from './demo2/demo2.page';
 import { DemoComponent } from './demo/demo.component';
+
+import { ModalPageModule } from './modal/modal.module';
 
 
 
@@ -55,12 +66,13 @@ import { DemoComponent } from './demo/demo.component';
     imports: [
         NgCalendarModule,
         BrowserModule, 
-        FormsModule, 
-        
+        FormsModule,         
+
         IonicModule.forRoot(), 
         HttpClientModule,
         HttpModule,
-        AppRoutingModule
+        AppRoutingModule,
+        ModalPageModule,
     ],
     providers: [
         StatusBar,
@@ -72,9 +84,12 @@ import { DemoComponent } from './demo/demo.component';
         //DatabaseService,
         NavController,
         Platform,
+        //DatePicker,
+        
 
         SQLite,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        InAppBrowser,
         
         AndroidPermissions,        
     ],

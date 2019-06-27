@@ -2,8 +2,10 @@ import { CalendarComponent } from 'ionic2-calendar/calendar';
 import { Component, ViewChild, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { AlertController,NavParams,ModalController,LoadingController,Platform,NavController} from '@ionic/angular';
 import { formatDate } from '@angular/common';
+import { ModalPage } from '../modal/modal.page';
 
 //import {DatabaseService } from '../database.service';
+
 import {Http, Headers } from '@angular/http';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
@@ -43,12 +45,13 @@ export class HomePage implements OnInit {
  
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
  
-  constructor(@Inject(LOCALE_ID) private locale: string, private modal:ModalController, private uniqueDeviceID: UniqueDeviceID, public loadingCtrl: LoadingController, public plt: Platform, private localNotifications: LocalNotifications, public nativeAudio: NativeAudio , private backgroundMode: BackgroundMode,public navCtrl: NavController, private http:Http,private alertCtrl: AlertController, /*private database: DatabaseService*/){ 
+  constructor(@Inject(LOCALE_ID) private locale: string, private modal:ModalController, private uniqueDeviceID: UniqueDeviceID, public loadingCtrl: LoadingController, public plt: Platform, private localNotifications: LocalNotifications, public nativeAudio: NativeAudio , private backgroundMode: BackgroundMode,public navCtrl: NavController, private http:Http,private alertCtrl: AlertController, /*private database: DatabaseService*/ private modalCtrl:ModalController){ 
 
 
   }
  
   ngOnInit() {
+    //this.closeModal()
     this.resetEvent();
   }
  
@@ -145,5 +148,18 @@ returnLogin(){
 /************************ Fin de funciones default del plugin de calendario************************/
 /**************************************************************************************************/
 
+async verDetallesCita()
+{
+  const modal = await this.modalCtrl.create({
+   component: ModalPage
+ });
+
+ return await modal.present();
+}
+
+closeModal()
+{
+  this.modalCtrl.dismiss();
+}
 
 }
