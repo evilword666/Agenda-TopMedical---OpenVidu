@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import {Http, Headers } from '@angular/http';
 import { AlertController,NavParams,ModalController,LoadingController,Platform,NavController} from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -11,6 +11,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   styleUrls: ['./modal.page.scss'],
 })
 export class ModalPage implements OnInit {
+  @Input() value: any;
 
   data:any = {};
   fecha_consulta: String;
@@ -28,7 +29,7 @@ export class ModalPage implements OnInit {
   nombre_completo_paciente:any;
 
   //constructor() { }
-  constructor(private http:Http, public alertController: AlertController, /*private datePicker: DatePicker,*/public plt: Platform, private iab: InAppBrowser, public navCtrl: NavController, /*@Inject(NavParams) private navParams: NavParams*/) {
+  constructor( private modalCtrl:ModalController, private navParams: NavParams, private http:Http, public alertController: AlertController, /*private datePicker: DatePicker,*/public plt: Platform, private iab: InAppBrowser, public navCtrl: NavController, /*@Inject(NavParams) private navParams: NavParams*/) {
 
     this.http = http;  
     this.data.hora_inicio = '';
@@ -49,8 +50,10 @@ export class ModalPage implements OnInit {
   }
 
   ngOnInit() {
-/*
-    const data = this.navParams.get('data');   
+
+    
+    const data = this.navParams.get('datos');   
+    alert(JSON.stringify(data))
     
 
     //alert("En el modal: "+JSON.stringify(data))
@@ -71,9 +74,179 @@ export class ModalPage implements OnInit {
     //this.checkRango = this.verificarRangoDeFechasPorCita(this.data.fecha_consulta,this.data.hora_inicio,this.data.hora_fin)
     //alert(this.checkRango)
 
-    */
+    
+  }
+
+  async eliminarCitaAler() {
+    const alert = await this.alertController.create({
+      header: 'Cancelar cita',
+      message: 'Realmente desea cancelar esta cita de su agenda?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('No se realiza ninguna accion');
+            //this.retrocederPagina()
+          }
+        }, {
+          text: 'Si',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.eliminarCitaDB()
+            //this.view.dismiss();
+            this.modalCtrl.dismiss();
+            
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
+  eliminarCitaDB(){
+    var link = 'https://topmedic.com.mx/accessDatabase/wp_DB/service/recibirDatos.php';            
+    var credentials = JSON.stringify({booking_key_delete : this.data.link_token_original});
+    
+    try {
+    
+
+    this.http.post(link, credentials)                  
+    .subscribe(data => {
+      
+
+      this.data.response = data["_body"]; 
+
+      var resp = JSON.parse(this.data.response);
+      //alert(resp['id'])
+      //alert(resp['response'])
+      
+          if(resp['response'] == "200"){
+ 
+            this.exitoEliminacionCita();              
+          }else{
+            this.errorEliminacionCita();               
+            //this.exitoLogin();
+          }
+      }, error => {
+        console.log("Oooops!");
+        alert("No se pudieron enviar los datos\nIntentelo mas tarde");          
+      });
+
+    } catch (error) {
+      alert("Hay un error en el servidor")
+    }
   }
 
   
+  async exitoEliminacionCita(){
+    const alert = await this.alertController.create({
+      header: 'Cita cancelada',
+      message: '<center>La cita ha sido cancelada exitosamente</center>',
+      buttons: ['Aceptar']
+    });
+    //alert.present();
+    await alert.present();
+  }
+
+
+  async errorEliminacionCita(){
+    let alert = await this.alertController.create({
+      header: '<center><h4>Error</h4></center>',
+      message: '<center>No se ha podido cancelar la cita</center>',
+      buttons: ['Aceptar']
+    });
+    await alert.present();
+  }
+
+  verificarRangoDeFechasPorCita(fecha,startHour,endHour){
+
+
+    var startTime;
+    var endTime;
+    
+     //Formato de la base de datos de Saul
+    startTime = fecha+" "+startHour;
+    endTime = fecha+" "+endHour; 
+    
+    var fechaHoy = new Date();
+    //Para android
+    let inicio = new Date(startTime);
+    let fin = new Date(endTime);
+    
+    //Para iOS tenemos que modificar el formato de fecha
+    var startTimeMOD = startTime;
+    var stm = new Date(startTimeMOD.replace(/-/g, '/'));
+
+    var endTimeMOD = endTime;
+    var stmf = new Date(endTimeMOD.replace(/-/g, '/'));
+
+    if (this.plt.is('ios')) {
+  
+      if (fechaHoy >= stm && fechaHoy <= stmf) {
+        console.log("Esta dentro del rango");
+        return true;
+      } 
+      else {
+        console.log("La videoasistencia no puede realizarse");
+        return false;
+      }
+
+    }else if (this.plt.is('android')) {
+  
+      if (fechaHoy >= inicio && fechaHoy <= fin) {
+        console.log("Esta dentro del rango");
+        return true;
+      } 
+      else {
+        console.log("La videoasistencia no puede realizarse");
+        return false;
+      }
+    }
+  }
+
+  iniciarVideoconferencia(){    
+    //alert(this.data.link_token )
+    //this.iab.create(this.data.link_token,'_system');    
+    //alert("Entrando a la funcion para redirigir a la videoconferencia")
+    this.modalCtrl.dismiss()
+    this.navCtrl.navigateForward('/videoasistencia')    
+    
+  }
+
+  eliminarCita(){
+    //alert("Entrando a eliminar la cita")
+    this.eliminarCitaAler()
+
+  }
+/*
+  reasignarCita(){
+    //this.navCtrl.push(ModificarCitaPage); 
+
+    this.datePicker.show({
+      date: new Date(),
+      mode: 'datetime',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_LIGHT
+    }).then(date => {
+      alert("Su cita ha sido reasignada")
+      this.retrocederPagina()
+    },
+      err => {
+        alert('Ha ocurrido un error al tratar de reasignar su cita '+ err)
+      }
+    );
+}
+*/
+
+retrocederPagina(){
+  this.navCtrl.pop();
+}
+
+  closeModal(){
+    this.modalCtrl.dismiss()
+  }
 
 }

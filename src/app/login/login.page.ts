@@ -109,6 +109,7 @@ ngOnInit(): void {
     //alert("Entrando a funcion de exito")
     this.loading.dismiss(); 
 //    this.navCtrl.push(HomePage);    
+    this.navCtrl.navigateForward('/home')
   }
 
 
@@ -167,7 +168,7 @@ ngOnInit(): void {
 }
 
   routingIonic4(){
-    this.navCtrl.navigateForward('/videoasistencia')
+    this.navCtrl.navigateForward('/videoasistencia')    
   }
 
 }
