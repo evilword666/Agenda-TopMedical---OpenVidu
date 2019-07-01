@@ -4,7 +4,7 @@ import { AlertController,NavParams,ModalController,LoadingController,Platform,Na
 import { formatDate } from '@angular/common';
 import { ModalPage } from '../modal/modal.page';
 
-//import {DatabaseService } from '../database.service';
+import {DatabaseService } from '../providers/database/database.service';
 
 import {Http, Headers } from '@angular/http';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
@@ -62,7 +62,7 @@ export class HomePage implements OnInit {
  
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
  
-  constructor(@Inject(LOCALE_ID) private locale: string, private uniqueDeviceID: UniqueDeviceID, public loadingCtrl: LoadingController, public plt: Platform, private localNotifications: LocalNotifications, public nativeAudio: NativeAudio , private backgroundMode: BackgroundMode,public navCtrl: NavController, private http:Http,private alertCtrl: AlertController, /*private database: DatabaseService*/ private modalCtrl:ModalController, /*private navParams: NavParams*/){ 
+  constructor(@Inject(LOCALE_ID) private locale: string, private uniqueDeviceID: UniqueDeviceID, public loadingCtrl: LoadingController, public plt: Platform, private localNotifications: LocalNotifications, public nativeAudio: NativeAudio , private backgroundMode: BackgroundMode,public navCtrl: NavController, private http:Http,private alertCtrl: AlertController, private database: DatabaseService , private modalCtrl:ModalController, /*private navParams: NavParams*/){ 
 
 
     this.data.username = '';
@@ -198,10 +198,12 @@ onViewTitleChanged(title) {
  
 // Calendar event was clicked
 async onEventSelected(event) {
+ 
+  /*
   // Use Angular date pipe for conversion
   let start = formatDate(event.startTime, 'medium', this.locale);
   let end = formatDate(event.endTime, 'medium', this.locale);
- 
+   
   const alert = await this.alertCtrl.create({
     header: event.title,
     subHeader: event.desc,
@@ -209,6 +211,47 @@ async onEventSelected(event) {
     buttons: ['OK']
   });
   alert.present();
+*/
+console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+//alert(event.title)
+//this.alertDetallesEvento( event.title )
+const miCita = {titulo:event.title,inicio:event.startTime,fin:event.endTime}
+
+//Aqui separaremos los valores que necesitaremos para hacer la consulta en la BD local
+let fechaCitaSeleccionada = this.obtenerFecha(event.startTime);
+let horaInicioCitaSeleccionada = this.obtenerHora(event.startTime);
+let horaFinCitaSeleccionada = this.obtenerHora(event.endTime);
+//alert (fechaCitaSeleccionada+" "+horaInicioCitaSeleccionada+" "+horaFinCitaSeleccionada)
+
+
+/*
+//Eliminar este segmento de codigo pues solo sirve para nostrar el modal en el navegador web
+let objectNotification = {
+  "fecha_consulta": fechaCitaSeleccionada, 
+  "hora": horaInicioCitaSeleccionada, 
+  "horb": horaFinCitaSeleccionada, 
+  "descripcion": event.title, 
+  "link_token": "jghavdshvdfhagvdfhagvdshnvf", 
+  "tipo_servicio": "Video asistencia",
+  "booking_id":"8",
+  "edad_paciente":"27",
+  "Sexo":"Hombre",
+  "padecimiento":"Dolor estomacal severo",
+  "nombre_completo_paciente":"Xavi Avelino"
+};
+this.verDetallesEventoModal(objectNotification)
+*/
+
+
+//Aqui ira la consulta a la BD local por fecha y hora 
+let camposDBcitaSeleccionada = this.getDetallesCitaSeleccionada(fechaCitaSeleccionada,horaInicioCitaSeleccionada,horaFinCitaSeleccionada)
+
+//alert("camposDBcitaSeleccionada: "+JSON.stringify(camposDBcitaSeleccionada))
+///Aqui enviaremos los parametros consultados al modal para poder visualizarlos
+//      this.verDetallesEventoModal(miCita)
+//        this.verDetallesEventoModal(camposDBcitaSeleccionada)
+
+
 }
  
 // Time slot was clicked
@@ -423,8 +466,10 @@ public playAudio(){
   /**************************************************************************************************************/
   /********** Esta se tiene que ejecutar para obtener los datos de la BD en el servidor de expediente ***********/
   /**************************************************************************************************************/          
+
+  //Desde aqui da errores
   consultarHorariosBDremota2(){
-/*
+
   
     console.log("Estado notificacion recibida: "+localStorage.getItem("NotificacionRecibida"))
     //alert("Se haran cambios en la base local por que se detectó una notificacion") 
@@ -475,7 +520,7 @@ public playAudio(){
           console.log("Oooops!");
           alert("No se pudieron enviar los datos\nIntentelo mas tarde");
           });
-*/
+
 }
 
 /**************************************************************************************************************/
@@ -525,7 +570,7 @@ insertIdMedicoToken(){
           }        
 }
 
-/*     
+ 
 almacenarHorariosEnLocalBD(fecha_consulta: string, hora:string, horb:string, descripcion: string, link_token: string,tipo_servicio:string, booking_id:string, edad_paciente: string, Sexo:string, padecimiento: string,nombre_completo_paciente:string, numCitas:number){
   this.database.almacenarCitasEnBD(fecha_consulta, hora,horb,descripcion, link_token,tipo_servicio,booking_id, edad_paciente, Sexo, padecimiento,nombre_completo_paciente, numCitas).then((data) =>{                
       console.log(JSON.stringify("Numero de datos insertados: "+data))
@@ -539,14 +584,325 @@ almacenarHorariosEnLocalBD(fecha_consulta: string, hora:string, horb:string, des
       console.log("Error al crear usuario: "+error)
       //alert("xdxdxd: "+error)
       //alert("Error al crear: "+error)
-  })
+  })  
+}
+
+
+/**************************************************************************************************************/
+/*************** Con esta funcion obtendremos las citas del medico almacenadas en la BD local *****************/
+/**************************************************************************************************************/
+getCitas(){
+  this.eventsCalendar = []; //Vaciamos el arreglo por si tiene eventos anteriores
   
-}
+  //Usamos la funcion creada en el proveedor database.ts para obtener los datos de las citas
+  this.database.obtenerCitas().then((data: any) => {
+    console.log("Resultado getCitas(): "+JSON.stringify(data.length));
 
+      //if(this.contadorCitas == 0){
+
+          //alert("Ahora pintaremos "+data.length+" citas en el calendario")
+          for (let i = 0; i < data.length; i++) {
+              const element = data[i];            
+              
+              let fecha_consulta_g = JSON.stringify(data[i]['fecha_consulta'])
+              let hora_g = JSON.stringify(data[i]['hora'])
+              let horb_g = JSON.stringify(data[i]['horb'])
+              let descripcion_g = JSON.stringify(data[i]['descripcion'])
+
+
+              let fecha_consulta_SC = fecha_consulta_g.replace(/"/g, ''); 
+              var hora_SC = hora_g.replace(/"/g, ''); 
+              var horb_SC = horb_g.replace(/"/g, ''); 
+              var descripcion_SC = descripcion_g.replace(/"/g, ''); 
+
+              
+              //alert("Desde funcion getcitas principal : Fecha "+fecha_consulta_SC+" Hora: "+hora_SC+" "+" Hora Fin"+horb_SC)
+              //Con esta linea mandamos a actualizar los eventos de la BD local en el calendario
+              this.eventSource = this.addSchedules(fecha_consulta_SC, hora_SC, horb_SC, descripcion_SC);
+              this.isPainted = true;
+          }
+          this.contadorCitas = 1;
+/*
+      }else{
+          alert("Ya no se puede realizar mas consultas")
+      }
 */
+  }, (error) => {
+    console.log(error);
+    //alert("error: "+error)
+  })
+  this.loading.dismiss(); 
+}
 
+/**************************************************************************************************************/
+/*************************** Obtener detalles de la cita seleccionana en el calendario ************************/
+/**************************************************************************************************************/
 
+getDetallesCitaSeleccionada(fechaCitaSeleccionada,horaInicioCitaSeleccionada,horaFinCitaSeleccionada){  
 
+//Usamos la funcion creada en el proveedor database.ts para obtener los datos de las citas
+this.database.obtenerCamposCitaSeleccionada(fechaCitaSeleccionada,horaInicioCitaSeleccionada,horaFinCitaSeleccionada).then((data: any) => {
+  
 
+        for (let i = 0; i < data.length; i++) {
+            const element = data[i];            
+            
+            let fecha_consulta_g = JSON.stringify(data[i]['fecha_consulta'])
+            let hora_g = JSON.stringify(data[i]['hora'])
+            let horb_g = JSON.stringify(data[i]['horb'])
+            let descripcion_g = JSON.stringify(data[i]['descripcion'])
+            let link_token_g = JSON.stringify(data[i]['link_token'])
+            let tipo_servicio_g = JSON.stringify(data[i]['tipo_servicio'])
+
+            let booking_id_g = JSON.stringify(data[i]['booking_id'])
+            let edad_paciente_g = JSON.stringify(data[i]['edad_paciente'])
+            let Sexo_g = JSON.stringify(data[i]['Sexo'])
+            let padecimiento_g = JSON.stringify(data[i]['padecimiento'])
+            let nombre_completo_paciente_g = JSON.stringify(data[i]['nombre_completo_paciente'])
+            //alert(fecha_consulta_g+" "+hora_g+" "+horb_g+" "+descripcion_g+" "+link_token_g)
+
+            let fecha_consulta_SC = fecha_consulta_g.replace(/"/g, ''); 
+            var hora_SC = hora_g.replace(/"/g, ''); 
+            var horb_SC = horb_g.replace(/"/g, ''); 
+            var descripcion_SC = descripcion_g.replace(/"/g, ''); 
+            var link_token_SC = link_token_g.replace(/"/g, '');               
+            var tipo_servicio_SC = tipo_servicio_g.replace(/"/g, '');   
+
+            var booking_id_SC = booking_id_g.replace(/"/g, ''); 
+            var edad_paciente_SC = edad_paciente_g.replace(/"/g, ''); 
+            var Sexo_SC = Sexo_g.replace(/"/g, ''); 
+            var padecimiento_SC = padecimiento_g.replace(/"/g, '');               
+            var nombre_completo_paciente_SC = nombre_completo_paciente_g.replace(/"/g, '');   
+
+            let objectNotification = {
+              "fecha_consulta": fecha_consulta_SC, 
+              "hora": hora_SC, 
+              "horb": horb_SC, 
+              "descripcion": descripcion_SC, 
+              "link_token": link_token_SC, 
+              "tipo_servicio": tipo_servicio_SC,
+              "booking_id":booking_id_SC,
+              "edad_paciente":edad_paciente_SC,
+              "Sexo":Sexo_SC,
+              "padecimiento":padecimiento_SC,
+              "nombre_completo_paciente":nombre_completo_paciente_SC
+            };
+
+            //alert(typeof(objectNotification))
+            this.verDetallesEventoModal(objectNotification)
+        }    
+        
+       
+
+}, (error) => {
+  console.log(error);
+  //alert("error: "+error)
+})
 
 }
+/**************************************************************************************************************/
+/**************************************************************************************************************/
+/**************************************************************************************************************/          
+
+rellenarArregloConConsultaBDremota(){
+
+
+  //alert("Valor de la respuesta en la funcion rellenar: "+this.resp['respValue']+"\n\nthis.horarios_medico: \n"+this.horarios_medico)
+
+
+  if(this.horarios_medico !== undefined){
+
+    var resp2 = JSON.parse(this.horarios_medico);
+    var nFilas = JSON.parse(this.numeroFilas);
+
+        //alert("Se agregaran "+nFilas+" nuevas filas")
+
+
+          if(this.resp['respValue'] == "200"){
+
+            for (let i = 0; i < Object.keys(resp2).length; i++) {
+                const element = this.resp['horarios'][i];
+                var fecha_consulta = JSON.stringify(element['fecha_consulta'])
+                var hora = JSON.stringify(element['hora'])
+                var horb = JSON.stringify(element['horb'])
+                var descripcion = JSON.stringify(element['descripcion'])
+                var link_token = JSON.stringify(element['token'])
+
+                var nombre = JSON.stringify(element['nombre_paciente'])
+                var aPaterno = JSON.stringify(element['paterno'])
+                var tipo_servicio = JSON.stringify(element['tipo_servicio'])
+
+
+                var booking_id = JSON.stringify(element['booking_id'])
+                var edad_paciente = JSON.stringify(element['edad_paciente'])
+                var Sexo = JSON.stringify(element['Sexo'])
+                var padecimiento = JSON.stringify(element['padecimiento'])
+
+              
+
+                var fecha_consulta_SC = fecha_consulta.replace(/"/g, ''); 
+                var hora_SC = hora.replace(/"/g, ''); 
+                var horb_SC = horb.replace(/"/g, ''); 
+                var descripcion_SC = descripcion.replace(/"/g, '');
+                var tipo_servicio_SC = tipo_servicio.replace(/"/g, '');
+              
+                var nombre_SC = nombre.replace(/"/g, '');
+                var aPaterno_SC = aPaterno.replace(/"/g, '');
+                var link_token_SC = link_token.replace(/"/g, '');
+              
+                var booking_id_SC = booking_id.replace(/"/g, ''); 
+
+                var edad_paciente_SC = edad_paciente.replace(/"/g, ''); 
+                var Sexo_SC = Sexo.replace(/"/g, ''); 
+                var padecimiento_SC = padecimiento.replace(/"/g, '');
+
+
+                var nombre_completo_paciente = nombre_SC+" "+aPaterno_SC;
+                var descripcionCompuesta = descripcion_SC; 
+                //var descripcionCompuesta = "Cita con "+nombre_SC+" "+aPaterno_SC+" "+descripcion_SC; 
+                //alert(" "+nombre_SC+" "+aPaterno_SC+" "+" "+aMaterno_SC);
+              
+                //this.eventSource es el evento en el html que se ira refrescando 
+                //this.eventSource = this.addSchedules(fecha_consulta_SC, hora_SC, horb_SC, descripcion_SC);
+                this.almacenarHorariosEnLocalBD(fecha_consulta_SC, hora_SC, horb_SC, descripcionCompuesta,link_token_SC,tipo_servicio_SC, booking_id_SC, edad_paciente_SC,Sexo_SC,padecimiento_SC, nombre_completo_paciente, nFilas);
+            }
+            window.localStorage.setItem("numFilasDBremota",window.localStorage.getItem("numFilasDBActual"))
+          }else{
+            alert("Hubo un error en la consulta de los horarios")  
+            this.clearCalendar()
+          }
+  }else{
+    this.clearCalendar()
+  }
+}
+
+
+clearCalendar(){
+  //alert("Tam de arrayCitas: "+this.eventsCalendar.length)
+  this.eventsCalendar = []; 
+  this.eventSource = this.addSchedules(" "," "," "," "); 
+}
+/**************************************************************************************************************/
+/**************************************************************************************************************/
+/**************************************************************************************************************/          
+clearTable(){
+
+  //alert("Entrando a limpiar tabla local")
+  this.database.limpiarTabla().then((data) =>{
+      console.log("Tabla Borrada: "+JSON.stringify(data))
+      //alert("Tabla local Borrada!!!");
+      //alert("Rellenaremos el arreglo para insertar en la BD local")
+      this.rellenarArregloConConsultaBDremota();
+
+  },(error) => {
+      console.log("Error no se pudo borrar tabla: "+error)
+      //alert("Error no se pudo borrar tabla: "+error)
+      //this.clearTable()
+  })
+}
+/**************************************************************************************************************/
+/**************************************************************************************************************/
+/**************************************************************************************************************/            
+loadEvents() {
+  //this.eventSource = this.createRandomEvents();
+  //this.eventSource = this.addEvent();      
+      //Formato de la base de datos de Saul
+      this.eventsCalendar = [];
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+}
+
+
+/********************************************************************************************************/
+/********************* Funcion para agregar los horarios descargados desde la BD ************************/
+/********************************************************************************************************/
+
+    //Agregar eventos uno a uno de la base de datos
+  //createEvent(title, location, notes, startDate, endDate)
+  addSchedules(dateM, startHour, endHour, description){
+  
+    
+    var startTime;
+    var endTime;
+    
+     //Formato de la base de datos de Saul
+    startTime = dateM+" "+startHour;
+    endTime = dateM+" "+endHour; 
+
+    let inicio = new Date(startTime);
+    let fin = new Date(endTime);
+    
+
+    var startTimeMOD = startTime;
+    //var stm = new Date(startTimeMOD.replace(' ', 'T'));
+    var stm = new Date(startTimeMOD.replace(/-/g, '/'));
+
+    var endTimeMOD = endTime;
+    //var stmf = new Date(endTimeMOD.replace(' ', 'T'));
+    var stmf = new Date(endTimeMOD.replace(/-/g, '/'));
+
+    if (this.plt.is('ios')) {
+      // This will only print when on iOS
+      console.log('I am an iOS device!');
+
+        this.eventsCalendar.push({
+          title: description,
+          startTime: stm,
+          endTime: stmf,
+          allDay: false        
+        });  
+
+        //alert("stm: "+stm+"\stmf: "+stmf)
+        console.log("stm: "+stm+"\stmf: "+stmf)
+
+    }else if (this.plt.is('android')) {
+      // This will only print when on iOS
+      console.log('I am an android device!');
+        this.eventsCalendar.push({
+          title: description,
+          startTime: inicio,
+          endTime: fin, 
+          allDay: false     
+        });
+
+        //alert("inicio: "+inicio+"\nendTime: "+fin)
+        console.log("inicio: "+inicio+"\nendTime: "+fin)
+    }
+
+/*
+    alert("Se a agregado un evento")    
+    alert("startTime: "+startTime+"\nendTime: "+endTime)
+    alert("inicio: "+inicio+"\nendTime: "+fin)
+    alert("Tamaño arreglo consultas: "+this.eventsCalendar.length)
+    alert("Contenido arreglo consultas: "+JSON.stringify(this.eventsCalendar[0]))
+    console.log("Contenido arreglo consultas: "+JSON.stringify(this.eventsCalendar[0]))
+*/
+    
+    return this.eventsCalendar;
+  }
+/********************************************************************************************************/
+/********************************************************************************************************/
+/********************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+}//Fin de la clase 

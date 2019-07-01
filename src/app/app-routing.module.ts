@@ -9,7 +9,9 @@ const routes: Routes = [
   { path: 'video-asistencia', loadChildren: './video-asistencia/video-asistencia.module#VideoAsistenciaPageModule' },
   { path: 'demo2', loadChildren: './demo2/demo2.module#Demo2PageModule' },
   { path: 'videoasistencia', component: OpenviduVideoAsistenciaComponent },
-  { path: 'Modal', loadChildren: './modal/modal.module#ModalPageModule' }
+  { path: 'Modal', loadChildren: './modal/modal.module#ModalPageModule' },
+  { path: 'developers', loadChildren: './pages/developers/developers.module#DevelopersPageModule' },
+  { path: 'developer/:id', loadChildren: './pages/developer/developer.module#DeveloperPageModule' }
   //{ path: 'OpenviduVideoAsistenciaComponent', loadChildren: './OpenviduVideoAsistenciaComponent#OpenviduVideoAsistenciaComponent' },  
   
 ];

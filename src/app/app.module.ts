@@ -15,8 +15,6 @@ import { OpenviduVideoAsistenciaComponent } from './openvidu-video-asistencia/op
 import { HttpModule } from '@angular/http';
 import { NavController, NavParams } from '@ionic/angular';
 
-//import { DatabaseService } from './database.service';
-
 import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
@@ -25,7 +23,7 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+
 //import { SQLite } from '@ionic-native/sqlite';
 //import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -40,8 +38,12 @@ import { DemoComponent } from './demo/demo.component';
 
 import { ModalPageModule } from './modal/modal.module';
 
+//import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+import { SQLite } from '@ionic-native/sqlite/ngx';
 
+import { DatabaseService } from './providers/database/database.service';
 
 @NgModule({
     declarations: [
@@ -81,16 +83,14 @@ import { ModalPageModule } from './modal/modal.module';
         BackgroundMode,
         LocalNotifications,
         NativeAudio,
-        //DatabaseService,
+        DatabaseService,
         NavController,
         Platform,
-        //DatePicker,
-        
-
-        SQLite,
+        //DatePicker,        
+        SQLite,        
+        SQLitePorter,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-        InAppBrowser,
-        
+        InAppBrowser,        
         AndroidPermissions,        
     ],
     bootstrap: [AppComponent]

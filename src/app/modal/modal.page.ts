@@ -53,7 +53,7 @@ export class ModalPage implements OnInit {
 
     
     const data = this.navParams.get('datos');   
-    alert(JSON.stringify(data))
+    //alert(JSON.stringify(data))
     
 
     //alert("En el modal: "+JSON.stringify(data))
