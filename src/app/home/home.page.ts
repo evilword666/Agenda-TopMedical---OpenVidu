@@ -76,7 +76,7 @@ export class HomePage implements OnInit {
     
     
     //Precargamos el audio para poder utilizarlo en las notificaciones de una actualizacion de la BD
-    this.nativeAudio.preloadSimple('audio1', 'audio/good.mp3').then((msg)=>{
+    this.nativeAudio.preloadSimple('audio1', 'assets/audio/good.mp3').then((msg)=>{
         console.log("message: " + msg);
     }, (error)=>{
         console.log("error: " + error);
@@ -93,14 +93,13 @@ export class HomePage implements OnInit {
 
     this.uniqueDeviceID.get()
   .then((uuid: any) => {
+    alert("Entrando al plugin UUID")
     console.log("UUID Nuevo: "+uuid)
     localStorage.setItem("UUID_Phone",uuid);
-
-
-    //this.verificarActualizacionDeDatosRemotosEnBackground() //Verificaremos los datos de la BD remota cada 10 segundos
-    //this.insertIdMedicoToken()
-
     
+    this.insertIdMedicoToken()
+    this.verificarActualizacionDeDatosRemotosEnBackground() //Verificaremos los datos de la BD remota cada 10 segundos
+        
   })
   .catch((error: any) => {
     console.log("ERROR Nuevo: "+error)

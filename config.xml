@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.openvidu.sampleios" version="2.6.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>OpenVidu Ionic</name>
+<widget id="mx.com.topmedic.agendatopmedic" version="2.6.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>AgendaTM</name>
     <description>OpenVidu Ionic app compatible with Android and iOS</description>
     <author email="openvidu@gmail.com" href="https://openvidu.io/">OpenVidu</author>
     <content src="index.html" />

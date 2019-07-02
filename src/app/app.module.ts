@@ -44,6 +44,7 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 
 import { DatabaseService } from './providers/database/database.service';
+import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 
 @NgModule({
     declarations: [
@@ -91,7 +92,8 @@ import { DatabaseService } from './providers/database/database.service';
         SQLitePorter,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         InAppBrowser,        
-        AndroidPermissions,        
+        AndroidPermissions,  
+        Push,       
     ],
     bootstrap: [AppComponent]
 })
