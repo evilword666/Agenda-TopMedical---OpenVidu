@@ -93,7 +93,7 @@ export class HomePage implements OnInit {
 
     this.uniqueDeviceID.get()
   .then((uuid: any) => {
-    alert("Entrando al plugin UUID")
+    //alert("Entrando al plugin UUID")
     console.log("UUID Nuevo: "+uuid)
     localStorage.setItem("UUID_Phone",uuid);
     
