@@ -8,12 +8,12 @@
   <img src="../../assets/img/doctor_logo.png" width="50%" class="margin" />
   <ion-list>    
       <ion-item>
-        <ion-label floating>Usuario</ion-label>
+        <ion-label floating color="light" class="bga"><ion-icon name="person" ios="md-person"></ion-icon> Usuario</ion-label>
         <ion-input type="text" [(ngModel)]="user"></ion-input>
       </ion-item>
     
       <ion-item>        
-        <ion-label floating>Contraseña</ion-label>
+        <ion-label floating color="light" class="bga"><ion-icon name="key" ios="md-key"></ion-icon> Contraseña</ion-label>
         <ion-input [type]="passwordType" [(ngModel)]="pass"></ion-input>
         <!--<ion-icon name="eye" color="primary" item-end (click)="mostrarPassword()"></ion-icon>-->
 
@@ -34,10 +34,8 @@
   </button>
 -->
 
-<ion-button  (click)="login()">Ingresar <br>
-<!--<ion-button  (click)="routingIonic4()">Ingresar <br>-->
-
-  <ion-icon name="person"></ion-icon>
+<ion-button color="secondary"  (click)="login()">Ingresar <br>
+<!--<ion-button  (click)="routingIonic4()">Ingresar <br>-->  
 </ion-button>
 
 <!--

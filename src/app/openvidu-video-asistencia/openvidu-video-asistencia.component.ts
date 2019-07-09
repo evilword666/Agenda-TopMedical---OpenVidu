@@ -9,6 +9,8 @@ import { OpenVidu, Publisher, Session, StreamEvent, StreamManager, Subscriber } 
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NavController, NavParams } from '@ionic/angular';
+import { ActivatedRoute } from "@angular/router";
+
 
 declare var cordova;
 
@@ -22,6 +24,8 @@ export class OpenviduVideoAsistenciaComponent implements OnInit {
 
 
     ngOnInit() {
+        this.OPENVIDU_SERVER_URL=  'https://topmeddr.com:4443';
+        this.joinSession()
     }
   
     
@@ -43,8 +47,11 @@ export class OpenviduVideoAsistenciaComponent implements OnInit {
     // Join form
     mySessionId: string;
     myUserName: string;
+
+    
   
     constructor(
+        private route: ActivatedRoute,
         private navCtrl:NavController,
         private platform: Platform,
         private splashScreen: SplashScreen,
@@ -53,6 +60,18 @@ export class OpenviduVideoAsistenciaComponent implements OnInit {
         private androidPermissions: AndroidPermissions,
         public alertController: AlertController
     ) {
+
+        
+
+        
+
+        /*
+        this.route.params.subscribe(params => {
+            let usuario = params['user']; 
+            let sesion = params['session']; 
+       });
+       */
+
         this.initializeApp();
         this.generateParticipantInfo();
     }
@@ -251,8 +270,16 @@ export class OpenviduVideoAsistenciaComponent implements OnInit {
   
     private generateParticipantInfo() {
         // Random user nickname and sessionId
-        this.mySessionId = 'SessionA';
-        this.myUserName = 'Participant' + Math.floor(Math.random() * 100);
+        //this.mySessionId = 'SessionA';
+        //this.myUserName = 'Participant' + Math.floor(Math.random() * 100);
+
+        this.route.queryParams.subscribe(params => {
+
+            this.mySessionId = params["session"];
+            this.myUserName = params["user"];            
+            
+         });
+
     }
   
     private deleteSubscriber(streamManager: StreamManager): void {
@@ -269,7 +296,7 @@ export class OpenviduVideoAsistenciaComponent implements OnInit {
                 {
                     name: 'url',
                     type: 'text',
-                    value: 'https://demos.openvidu.io:4443/',
+                    value: 'https://topmeddr.com:4443/',
                     placeholder: 'URL'
                 },
                 {

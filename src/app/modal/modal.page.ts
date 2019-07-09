@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import {Http, Headers } from '@angular/http';
 import { AlertController,NavParams,ModalController,LoadingController,Platform,NavController} from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { NavigationExtras } from '@angular/router';
 
 //import { DatePicker } from '@onic-native/date-picker/ngx';
 
@@ -212,8 +213,23 @@ export class ModalPage implements OnInit {
     //alert(this.data.link_token )
     //this.iab.create(this.data.link_token,'_system');    
     //alert("Entrando a la funcion para redirigir a la videoconferencia")
+
+    
     this.modalCtrl.dismiss()
-    this.navCtrl.navigateForward('/videoasistencia')    
+
+
+
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+          user: window.localStorage.getItem("nombre_doctor"),
+          session: this.data.link_token_original
+      }
+  };
+  this.navCtrl.navigateForward(['/videoasistencia'], navigationExtras);
+
+  
+  //this.navCtrl.navigateForward('/videoasistencia')    
     
   }
 
@@ -245,8 +261,10 @@ retrocederPagina(){
   this.navCtrl.pop();
 }
 
-  closeModal(){
-    this.modalCtrl.dismiss()
-  }
+async closeModal(){
+  await this.modalCtrl.dismiss({
+    "eliminado":true
+  })
+}
 
 }

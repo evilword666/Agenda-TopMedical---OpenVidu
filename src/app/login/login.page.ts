@@ -147,6 +147,7 @@ ngOnInit(): void {
               window.localStorage.setItem("user", String(this.user));  
               window.localStorage.setItem("pass", String(this.pass));  
               window.localStorage.setItem("id_doctor", String(resp['id']));  
+              window.localStorage.setItem("nombre_doctor", String(resp['nombre_medico'])); 
               this.exitoLogin();              
             }else{
               this.errorLogin();               
