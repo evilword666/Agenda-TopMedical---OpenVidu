@@ -30,7 +30,9 @@ export class AppComponent implements OnDestroy {
 
     rootPage:any = OpenviduVideoAsistenciaComponent;
 
-    constructor(private push: Push,private platform: Platform){
+    constructor(private statusBar: StatusBar, private push: Push,private platform: Platform){
+
+      this.statusBar.backgroundColorByHexString('#ffffff');
 
         this.platform.ready().then(() => {
 

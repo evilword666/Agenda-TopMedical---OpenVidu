@@ -14,6 +14,7 @@ import { NavigationExtras } from '@angular/router';
 export class ModalPage implements OnInit {
   @Input() value: any;
 
+  statusEliminarCita:boolean = false;
   data:any = {};
   fecha_consulta: String;
   hora_inicio:String;
@@ -48,6 +49,7 @@ export class ModalPage implements OnInit {
     this.data.padecimiento='';;
     this.data.nombre_completo_paciente='';
 
+    localStorage.setItem("statusEliminarCita","false");
   }
 
   ngOnInit() {
@@ -127,8 +129,19 @@ export class ModalPage implements OnInit {
       
           if(resp['response'] == "200"){
  
-            this.exitoEliminacionCita();              
+            this.statusEliminarCita = true; 
+
+            //alert("statusEliminarCita: "+this.statusEliminarCita)
+
+            localStorage.setItem("statusEliminarCita",this.statusEliminarCita+"")
+          
+            //this.closeModal(true)
+            
+            this.exitoEliminacionCita(); 
+            
+
           }else{
+            //this.closeModal(false)
             this.errorEliminacionCita();               
             //this.exitoLogin();
           }
@@ -150,7 +163,7 @@ export class ModalPage implements OnInit {
       buttons: ['Aceptar']
     });
     //alert.present();
-    await alert.present();
+    await alert.present();    
   }
 
 
@@ -263,7 +276,7 @@ retrocederPagina(){
 
 async closeModal(){
   await this.modalCtrl.dismiss({
-    "eliminado":true
+    "eliminado":this.statusEliminarCita
   })
 }
 

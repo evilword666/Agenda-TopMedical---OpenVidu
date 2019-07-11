@@ -12,7 +12,7 @@
 }
 
 .margin{
-    margin-top: 25%;
+    margin-top: 40px;
 }
 
 #loadingbar{
@@ -70,3 +70,11 @@ ion-footer ion-toolbar span, ion-footer ion-toolbar .toolbar-content-ios span{ve
 ion-footer ion-toolbar img{max-width: 75px;}
 .bgr{background:#A81A47; }
 .bga{background: #096A9C; padding:5px; border-radius: 5px 0 0 5px; min-width: 119px; box-sizing: border-box; text-align: right;}
+
+#botonLogin{    
+    outline: none;
+    --color:white;
+    --background:white;
+    --box-shadow:none;
+}
+

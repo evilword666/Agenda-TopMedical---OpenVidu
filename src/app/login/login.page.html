@@ -6,8 +6,8 @@
 
 <ion-content text-center id="fondoContenido">
   <img src="../../assets/img/doctor_logo.png" width="50%" class="margin" />
-  <ion-list>    
-      <ion-item>
+  <ion-list lines="none">    
+      <ion-item class="nobb">
         <ion-label floating color="light" class="bga"><ion-icon name="person" ios="md-person"></ion-icon> Usuario</ion-label>
         <ion-input type="text" [(ngModel)]="user"></ion-input>
       </ion-item>
@@ -18,8 +18,8 @@
         <!--<ion-icon name="eye" color="primary" item-end (click)="mostrarPassword()"></ion-icon>-->
 
         
-        <ion-button clear item-end large [color]="passwordShowed === true ? 'primary' : 'danger'" (click)="mostrarPassword()">
-          <ion-icon name="eye"></ion-icon>
+        <ion-button id="botonLogin" color="light" item-end large  (click)="mostrarPassword()" [hidden]="!pass">
+          <ion-icon name="eye" [color]="passwordShowed === true ? 'primary' : 'danger'"></ion-icon>
         </ion-button>
         
       </ion-item>        

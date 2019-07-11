@@ -364,6 +364,20 @@ async verDetallesEventoModal(evento){
     componentProps: { datos: evento }
   });
 
+
+  myModal.onDidDismiss()
+  .then((data) => {
+    const dataBack = data['data']; // Here's your selected user!
+    console.log('data came back from modal');
+    console.log("Datos de regreso: "+JSON.stringify(dataBack));
+    //alert("data came back from modal: "+dataBack['eliminado'])
+    //alert("Localstorage: "+localStorage.getItem("statusEliminarCita"))
+    if(localStorage.getItem("statusEliminarCita") == "true"){
+      this.consultarHorariosBDremota2();
+    }
+
+});
+
   return await myModal.present();
 
 }
@@ -807,20 +821,20 @@ loadEvents() {
   //this.eventSource = this.addEvent();      
       //Formato de la base de datos de Saul
       this.eventsCalendar = [];
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion');
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
-  this.eventSource = this.addSchedules('2019-05-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-07-10','17:30:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-07-10','17:31:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-07-10','17:32:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-07-10','17:33:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-07-10','17:34:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-07-10','17:35:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-07-10','17:36:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-07-10','17:37:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-07-10','17:38:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-07-10','17:39:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-07-10','17:40:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-07-10','17:10:00','20:30:00','Mi descripcion');
+  this.eventSource = this.addSchedules('2019-07-10','17:20:00','20:30:00','Mi descripcion'); 
+  this.eventSource = this.addSchedules('2019-07-10','17:55:00','20:30:00','Mi descripcion'); 
 }
 
 
@@ -832,7 +846,6 @@ loadEvents() {
   //createEvent(title, location, notes, startDate, endDate)
   addSchedules(dateM, startHour, endHour, description){
   
-    
     var startTime;
     var endTime;
     

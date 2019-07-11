@@ -192,6 +192,7 @@ export class OpenviduVideoAsistenciaComponent implements OnInit {
   
         if (this.session) {
             this.session.disconnect();
+            this.navCtrl.navigateForward('/home')
         }
   
         // Empty all properties...

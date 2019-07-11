@@ -1,36 +1,30 @@
 <ion-app>
-<!--
-  <ion-header>
-    <ion-toolbar color="dark">
+
+  <ion-header mode="ios">
+    <ion-toolbar color="primary">
       <img class="demo-logo" src="../assets/images/openvidu_vert_white_bg_trans_cropped.png" />
-      <ion-buttons slot="primary">
-        <ion-button color="light" href="https://github.com/OpenVidu/openvidu-tutorials/tree/master/openvidu-ionic">
-          <ion-icon slot="icon-only" name="logo-github"></ion-icon>
-        </ion-button>
-      </ion-buttons>
     </ion-toolbar>
   </ion-header>
--->
+<!--
   <ion-content padding *ngIf="!session">
 
-    <!--<app-demo></app-demo>-->
+    
     <ion-button (click)="regresar()">Regresar</ion-button>
 
     <div id="img-div"><img src="../assets/images/openvidu_grey_bg_transp_cropped.png" /></div>
-    <h1 align="center" id="title">Join a video session</h1>
+    <h1 align="center" id="title">Iniciar Videoasistencia</h1>
     <ion-item>
-      <ion-label position="floating">Participant</ion-label>
+      <ion-label position="floating">Usuario</ion-label>
       <ion-input [(ngModel)]="myUserName"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Session</ion-label>
+      <ion-label position="floating">Nombre de la Sesión</ion-label>
       <ion-input [(ngModel)]="mySessionId"></ion-input>
     </ion-item>
 
-    <ion-button id="join-button" [disabled]="!mySessionId && !myUserName" (click)="joinSession()" expand="block" shape="round"
-      color="primary">
+    <ion-button id="join-button" [disabled]="!mySessionId && !myUserName" (click)="joinSession()" expand="block" shape="round" color="primary">
       <ion-icon slot="start" name="videocam"></ion-icon>
-      Join
+      Iniciar
     </ion-button>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -41,32 +35,31 @@
     </ion-fab>
 
   </ion-content>
+-->
 
-  <ion-content [scrollEvents]="true" (ionScroll)="refreshVideos()" *ngIf="session">
+<!--  <ion-content [scrollEvents]="true" (ionScroll)="refreshVideos()" *ngIf="session"> -->
+    <ion-content [scrollEvents]="true" (ionScroll)="refreshVideos()" >
     <div id="session-header">
-      <h1 id="session-title">{{mySessionId}}</h1>
     </div>
 
     <ion-grid>
       <!--Subscribers and Publishers-->
       <ion-row>
-        <ion-col size="6">
-          <div *ngIf="publisher" class="stream-container">
-            <user-video [streamManager]="publisher"></user-video>
-          </div>
-        </ion-col>
-
-        <ion-col size="6" *ngFor="let sub of subscribers">
+        <ion-col size="12" *ngFor="let sub of subscribers">
           <div class="stream-container">
-            <user-video [streamManager]="sub"></user-video>
+            <user-video  class="videoremoto" [streamManager]="sub"></user-video>
           </div>
         </ion-col>
-
+        <ion-col size="4">
+          <div *ngIf="publisher" class="stream-container">
+            <user-video  class="videolocal" [streamManager]="publisher"></user-video>
+          </div>
+        </ion-col>
       </ion-row>
     </ion-grid>
 
     <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-      <ion-fab-button size="small" color="danger" (click)="leaveSession()">
+      <ion-fab-button size="small" color="secondary" (click)="leaveSession()">
         <ion-icon name="power"></ion-icon>
       </ion-fab-button>
     </ion-fab>
