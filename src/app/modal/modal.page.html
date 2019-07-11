@@ -21,15 +21,30 @@
         <ion-icon name="ios-videocam"></ion-icon>
       </ion-button>
     </div>
-
+<!--
     <ion-fab>
       <ion-fab-button>
           <ion-icon name="md-calendar" large></ion-icon>
        </ion-fab-button>
        <ion-fab-list id="modificarcita" side="top"> 
-        <ion-fab-button class="option" color="danger" (click)="eliminarCita()" ><ion-icon name="ios-trash"></ion-icon></ion-fab-button>
-                                                                                                  
-        <!--<button class="option" ion-fab (click)="updateDataCita()"><ion-icon class="bco" ios="ios-calendar-outline" md="ios-calendar-outline"></ion-icon><ion-label>Reagendar cita</ion-label></button>-->
+        <ion-fab-button class="option" color="danger" (click)="eliminarCita()" ><ion-label>Cancelar cita</ion-label><ion-icon name="ios-trash"></ion-icon></ion-fab-button>                              
+      </ion-fab-list>
+    </ion-fab>
+-->
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      
+      <ion-fab-button>
+        <ion-icon name="md-calendar"></ion-icon>
+      </ion-fab-button>
+  
+      <ion-fab-list side="top">
+
+        <ion-fab-button (click)="eliminarCita()">
+          <ion-icon name="ios-trash"></ion-icon>
+        </ion-fab-button>
+        <ion-label>Cancelar cita</ion-label>
+   
       </ion-fab-list>
     </ion-fab>
 
