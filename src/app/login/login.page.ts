@@ -107,9 +107,15 @@ ngOnInit(): void {
 
   exitoLogin(){  
     //alert("Entrando a funcion de exito")
-    this.loading.dismiss(); 
-//    this.navCtrl.push(HomePage);    
-    this.navCtrl.navigateForward('/home')
+
+    setTimeout(() => {
+      
+    this.loading.dismiss(); //Se aumento un tiempo por que como al lanzar el alert es asincrono a veces trataba de minimizar el spinner antes de que apareciera y se quedaba cargando
+    //    this.navCtrl.push(HomePage);    
+        this.navCtrl.navigateForward('/home')
+        
+    }, 1000);
+    
   }
 
 
@@ -119,6 +125,7 @@ ngOnInit(): void {
     if(this.user != "" && this.pass != "")
     {
       
+      this.presentLoadingCustom();
       //alert("boton presionado!")
 //      var link = 'http://93.104.215.239/ecg_mqtt/DATABASE/agendaMedicos.php';
 //      var link = 'https://topmedic.com.mx/accessDatabase/AgendaTopMedicos/agendaMedicos.php';     
@@ -126,7 +133,7 @@ ngOnInit(): void {
       var credentials = JSON.stringify({username: this.user,password:this.pass});
       //alert(credentials)
 
-      this.presentLoadingCustom();
+      
       
       try {
       
