@@ -17,7 +17,10 @@
 
     <div id="botonVideoconsulta">
         <!--<button ion-button outline item-end icon-right color="Primary" [hidden]="((data.tipo_servicio === 'Video asistencia') && (data.checkRango === 'true')) ? false : true" (click)="iniciarVideoconferencia()">Iniciar Video-Asistencia<br>-->
-        <ion-button outline item-end icon-right color="secondary" [hidden]="data.tipo_servicio === 'Consulta Presencial' ? true : false" (click)="iniciarVideoconferencia()">Iniciar Video-Asistencia<br>
+<!--        <ion-button outline item-end icon-right color="secondary" [hidden]="((data.tipo_servicio === 'Video asistencia') && (data.checkRango === 'true')) ? false : true" (click)="iniciarVideoconferencia()">Iniciar Video-Asistencia<br>  -->
+<!-- <ion-button outline item-end icon-right color="secondary" [hidden]="((data.tipo_servicio === 'VideoAsesoria') && (data.checkRango === 'true')) ? false : true" (click)="iniciarVideoconferencia()">Iniciar Video-Asistencia<br>-->
+  <!--<ion-button outline item-end icon-right color="secondary" [hidden]="data.checkRango == 'true' ? false : true" (click)="iniciarVideoconferencia()">Iniciar Video-Asistencia<br>-->
+        <ion-button outline item-end icon-right color="secondary" [hidden]="statusmostrarBotonVideoAsistenia ? false : true" (click)="iniciarVideoconferencia()">Iniciar Video-Asistencia<br>
         <ion-icon name="ios-videocam"></ion-icon>
       </ion-button>
     </div>
@@ -32,7 +35,7 @@
     </ion-fab>
 -->
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab vertical="bottom" horizontal="end" >
       
       <ion-fab-button>
         <ion-icon name="md-calendar"></ion-icon>

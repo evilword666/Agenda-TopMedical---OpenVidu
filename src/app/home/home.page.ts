@@ -645,7 +645,11 @@ getCitas(){
     console.log(error);
     //alert("error: "+error)
   })
-  this.loading.dismiss(); 
+
+  setTimeout(() => {
+    this.loading.dismiss(); 
+  }, 2000);
+  
 }
 
 /**************************************************************************************************************/

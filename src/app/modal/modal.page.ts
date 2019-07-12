@@ -15,6 +15,7 @@ export class ModalPage implements OnInit {
   @Input() value: any;
 
   statusEliminarCita:boolean = false;
+  statusmostrarBotonVideoAsistenia:boolean=false;
   data:any = {};
   fecha_consulta: String;
   hora_inicio:String;
@@ -57,7 +58,7 @@ export class ModalPage implements OnInit {
     
     const data = this.navParams.get('datos');   
     //alert(JSON.stringify(data))
-    
+    console.log("En el modal: "+JSON.stringify(data))
 
     //alert("En el modal: "+JSON.stringify(data))
     //console.log("En el modal: "+JSON.stringify(data))
@@ -74,10 +75,11 @@ export class ModalPage implements OnInit {
     this.data.Sexo=data.Sexo;
     this.data.padecimiento=data.padecimiento;
     this.data.nombre_completo_paciente=data.nombre_completo_paciente;
-    //this.checkRango = this.verificarRangoDeFechasPorCita(this.data.fecha_consulta,this.data.hora_inicio,this.data.hora_fin)
+    this.checkRango = this.verificarRangoDeFechasPorCita(this.data.fecha_consulta,this.data.hora_inicio,this.data.hora_fin)
     //alert(this.checkRango)
 
-    
+    this.statusmostrarBotonVideoAsistenia = (this.checkRango && (this.data.tipo_servicio == "VideoAsesoria"))
+    //alert("ResComp: "+this.statusmostrarBotonVideoAsistenia)
   }
 
   async eliminarCitaAler() {
