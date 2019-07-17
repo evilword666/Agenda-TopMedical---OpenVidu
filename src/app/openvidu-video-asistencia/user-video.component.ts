@@ -12,11 +12,10 @@ import { StreamManager } from 'openvidu-browser';
             }
             div div {
                 position: absolute;
-                background: #f8f8f8;
-                padding-left: 5px;
-                padding-right: 5px;
-                color: #777777;
-                border-bottom-right-radius: 4px;
+                background: rgba(0,0,0,.7);
+                padding: 5px 10px;
+                color: #fff;
+                border-radius: 0 0 4px 0;
                 top:0;
                 left:0;
                 font-weight:400;

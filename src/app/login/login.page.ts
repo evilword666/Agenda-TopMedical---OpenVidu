@@ -21,6 +21,8 @@ export class LoginPage implements OnInit {
   loading:any;
   passwordType:string='password';
   passwordShowed:boolean=false;
+  claseContraVacia:any="defaultClassDatLab";
+
   
   constructor(private navCtrl:NavController, private router: Router, public loadingController: LoadingController, public alertController: AlertController, private http: Http) {       
     this.data.username = '';
@@ -71,9 +73,11 @@ ngOnInit(): void {
     if(this.passwordShowed){
       this.passwordShowed = false;
       this.passwordType = 'password';
+      //this.claseContraVacia = "defaultClassDatLab";
     }else{
       this.passwordShowed = true;
       this.passwordType = 'text';
+      //this.claseContraVacia = "ClaseNuevaAsignada";
   
     }
     

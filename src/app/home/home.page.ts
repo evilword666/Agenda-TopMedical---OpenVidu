@@ -263,6 +263,8 @@ onTimeSelected(ev) {
 }
 
 returnLogin(){
+  //alert("Fui presionado ")
+  //console.log("Fui presionado ")
   this.navCtrl.navigateForward('/login')
 }
 

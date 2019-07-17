@@ -271,13 +271,15 @@ export class OpenviduVideoAsistenciaComponent implements OnInit {
   
     private generateParticipantInfo() {
         // Random user nickname and sessionId
-        //this.mySessionId = 'SessionA';
-        //this.myUserName = 'Participant' + Math.floor(Math.random() * 100);
 
         this.route.queryParams.subscribe(params => {
 
             this.mySessionId = params["session"];
             this.myUserName = params["user"];            
+
+            //this.mySessionId = 'SessionA';
+            //this.myUserName = 'Participant' + Math.floor(Math.random() * 100);
+    
             
          });
 

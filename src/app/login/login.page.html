@@ -7,14 +7,14 @@
 <ion-content text-center id="fondoContenido">
   <img src="../../assets/img/doctor_logo.png" width="50%" class="margin" />
   <ion-list lines="none">    
-      <ion-item class="nobb">
+      <ion-item class="nobb" lines="none">
         <ion-label floating color="light" class="bga"><ion-icon name="person" ios="md-person"></ion-icon> Usuario</ion-label>
-        <ion-input type="text" [(ngModel)]="user"></ion-input>
+        <ion-input id="userlogin" type="text" [(ngModel)]="user"></ion-input>
       </ion-item>
     
-      <ion-item>        
+      <ion-item lines="none">        
         <ion-label floating color="light" class="bga"><ion-icon name="key" ios="md-key"></ion-icon> Contraseña</ion-label>
-        <ion-input [type]="passwordType" [(ngModel)]="pass"></ion-input>
+        <ion-input id="pwd" [type]="passwordType" [(ngModel)]="pass" [ngClass]="!pass ? 'defaultClassDatLab' : 'ClaseNuevaAsignada' "></ion-input>
         <!--<ion-icon name="eye" color="primary" item-end (click)="mostrarPassword()"></ion-icon>-->
 
         

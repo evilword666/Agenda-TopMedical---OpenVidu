@@ -3,11 +3,11 @@
 
     
     <!-- Move back one screen of the slides -->
-    
+    <ion-buttons slot="start">
         <ion-button fill="clear" color="danger" (click)="returnLogin()">
           <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
         </ion-button>
-
+    </ion-buttons>
 
     <ion-title>
       {{ viewTitle }}
@@ -101,7 +101,7 @@
   </calendar>
  
   <ion-fab class="ml10" right bottom #fab >
-  <ion-fab-button right bottom (click)="actualizarAgenda()">
+  <ion-fab-button id="actualizar" right bottom (click)="actualizarAgenda()">
   <!--<ion-fab-button right bottom (click)="verDetallesCita()">-->
         
         <ion-icon name="md-refresh" large></ion-icon>

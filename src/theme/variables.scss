@@ -85,19 +85,17 @@
 
   .ml10{position:absolute; right:10px;}
   ion-header ion-title{display:inline-block; vertical-align: text-top; }
-  .monthview-selected[_ngcontent-c1], .monthview-primary-with-event[_ngcontent-c1]{background: none!important; position: relative;}
-  .monthview-primary-with-event[_ngcontent-c1]:before{content:"";background:#096A9C; width:36px; height:36px; border-radius:50%; display: block; position: absolute; top: 0; left: 0; z-index: -1; left:50%; margin-left: -18px}
-  .monthview-selected[_ngcontent-c1]:before{content:"";background:#A81A47; width:36px; height:36px; border-radius:50%; display: block; position: absolute; top: 0; left: 0; z-index: -1; left:50%; margin-left: -18px}
+  .monthview-selected, .monthview-primary-with-event{background: none!important; position: relative;}
+  .monthview-primary-with-event:before{content:"";background:#096A9C; width:36px; height:36px; border-radius:50%; display: block; position: absolute; top: 0; left: 0; z-index: -1; left:50%; margin-left: -18px}
+  .monthview-selected:before, .monthview-primary-with-event.monthview-selected:before{content:"";background:#A81A47; width:36px; height:36px; border-radius:50%; display: block; position: absolute; top: 0; left: 0; z-index: -1; left:50%; margin-left: -18px}
   .monthview-primary-with-event, .weekview-with-event, .dayview-allday-label{background:#BFD9D5}    
-  .monthview-eventdetail-timecolumn{font-weight: 600; font-size:.95em; text-align: center; background:#096A9C!important; color: #fff!important; padding: 5px; vertical-align: middle; display:inline-block; min-width:120px}
+  .monthview-eventdetail-timecolumn{font-weight: 600; font-size:.95em; text-align: center; background:#096A9C!important; color: #fff!important; padding: 5px; vertical-align: middle; display:inline-block; min-width:120px; border-radius: 5px 0 0 5px;}
+  span.event-detail{padding:3px 5px; border:solid 1px #096A9C; border-radius: 0 5px 5px 0; display:inline-block; width: calc(100% - 110px); min-height:27px;}
   ion-label.label{border:solid 2px #096A9C!important; border-radius: 5px; overflow:hidden;}
   th{background:#7ECFD3; color: #fff;}
   .event-detail-container[_ngcontent-c0], .item-block:last-child, .item-wrapper:last-child .item-block, .item-inner, .list-ios > .item-block:first-child{border:none!important;}
   ion-label.label{margin: 5px 0!important;}
-  ion-list.event-detail-container{margin-top:10px; max-height: 41.5vh; overflow-y:scroll;}
-
-
-
+  ion-list.event-detail-container{margin:0; max-height: 34.5vh; overflow-y:scroll; border-top:none!important}
+  ion-item.in-list{--border-color:#fff; --border:none!important; --min-height: auto;}
+  ion-input input{padding:0 5px!important;}
 }
-
-

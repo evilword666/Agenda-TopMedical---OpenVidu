@@ -32,7 +32,7 @@ export class AppComponent implements OnDestroy {
 
     constructor(private statusBar: StatusBar, private push: Push,private platform: Platform){
 
-      this.statusBar.backgroundColorByHexString('#ffffff');
+      this.statusBar.backgroundColorByHexString('#989aa2');
 
         this.platform.ready().then(() => {
 
