@@ -33,6 +33,7 @@ export class AppComponent implements OnDestroy {
     constructor(private statusBar: StatusBar, private push: Push,private platform: Platform){
 
       this.statusBar.backgroundColorByHexString('#989aa2');
+      this.statusBar.overlaysWebView(false);
 
         this.platform.ready().then(() => {
 
@@ -116,8 +117,9 @@ export class AppComponent implements OnDestroy {
       console.log('Device registered', JSON.stringify(registration));
       localStorage.setItem("phoneToken",registration.registrationId);
       //alert(localStorage.getItem("phoneToken"))
+      console.log("Token de notificaciones push: "+localStorage.getItem("phoneToken"))
       //alert("ID DE REGISTRO XD: "+localStorage.getItem("phoneToken"));
-    })
+    })  
     
 
     pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));

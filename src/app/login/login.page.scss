@@ -50,6 +50,7 @@ button[ion-fab] {
 }
 .list-ios > .item-block:first-child{border-top:none;}
 .toolbar-ios-primary .toolbar-background-ios, .toolbar-md-primary .toolbar-background-md{ background:#096A9C;}
+.ios ion-toolbar{padding-top: 18px;}
 .centrado{text-align:center}
 .headerlogo{width:100%; max-width:245px; }
 ion-content{margin-top:2em;}
@@ -69,7 +70,7 @@ ion-footer ion-toolbar{padding: 5px 20px!important; box-sizing: border-box; colo
 ion-footer ion-toolbar span, ion-footer ion-toolbar .toolbar-content-ios span{vertical-align: super;}
 ion-footer ion-toolbar img{max-width: 75px;}
 .bgr{background:#A81A47; }
-.bga{background: #096A9C; padding:5px; border-radius: 5px 0 0 5px; min-width: 119px; box-sizing: border-box; text-align: right;}
+.bga{background: #096A9C; padding:5px; border-radius: 5px 0 0 5px; min-width: 119px; box-sizing: border-box; margin-right: 0; text-align: right;}
 
 #botonLogin{    
     --color:white;
@@ -79,7 +80,8 @@ ion-footer ion-toolbar img{max-width: 75px;}
     border-bottom:solid 1px #096A9C;
     border-right: solid 1px #096A9C;
     border-radius: 0 5px 5px 0;
-    height: 30px;
+    height: 33px;
+    box-sizing: border-box;
     margin: 0;
     --ion-color-shade: #fff;
 }

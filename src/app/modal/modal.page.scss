@@ -25,8 +25,8 @@
           left: 0;
           right: 0;
           bottom:0;
-          width: calc(100% - 10px);
-          max-height: calc(100% - 10px);
+          width: calc(100% - 20px);
+          max-height: calc(100% - 20px);
           height: auto;
           padding: 10px 10px 80px 10px;
           z-index: 100;
@@ -154,11 +154,11 @@
   ion-fab-button {
     overflow: visible;
     position: fixed;
-    right: 5px;
-    bottom: 5px;
+    right: 10px;
+    bottom: 10px;
   }
   ion-fab-list {
-    position: absolute; right: 0; min-width:150px;
+    position: absolute; right: 0; min-width:150px; bottom: 0px;
     ion-label {
       position: relative;
       top: 10px;
